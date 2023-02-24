@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
@@ -16,7 +16,9 @@ chatgpt = ChatGPT()
 # domain root
 @app.route('/')
 def home():
-    return 'Hello, World!'
+    with open('cmdlist.json', 'r') as f:
+        data = json.load(f)
+    return data #'Hello, World!'
 
 @app.route("/webhook", methods=['POST'])
 def callback():
@@ -39,6 +41,8 @@ def handle_message(event):
     
     if event.message.type != "text":
         return
+    
+
     
     if event.message.text == "啟動":
         working_status = True
