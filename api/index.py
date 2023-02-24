@@ -16,9 +16,13 @@ chatgpt = ChatGPT()
 # domain root
 @app.route('/')
 def home():
-    with open('cmdlist.json', 'r') as f:
-        data = json.load(f)
-    return data #'Hello, World!'
+    return 'Hello, World!'
+
+@app.route('/api')
+def api():
+    with open('cmdlist.json', mode='r') as my_file:
+        text = my_file.read()
+        return text
 
 @app.route("/webhook", methods=['POST'])
 def callback():
