@@ -44,7 +44,7 @@ def handle_message(event):
         working_status = True
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="我是時下流行的AI智能，目前可以為您服務囉，歡迎來跟我互動~"))
+            TextSendMessage(text="chatgpt 目前可以為您服務囉~"))
         return
 
     if event.message.text == "安靜":
@@ -53,7 +53,11 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="感謝您的使用，若需要我的服務，請跟我說 「啟動」 謝謝~"))
         return
-    
+    if event.message.text == "說明":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=""))
+        return
     if working_status:
         chatgpt.add_msg(f"Human:{event.message.text}?\n")
         reply_msg = chatgpt.get_response().replace("AI:", "", 1)
