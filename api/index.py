@@ -20,9 +20,9 @@ def home():
 
 @app.route('/api')
 def api():
-    with open('cmdlist.json', mode='r') as my_file:
+    with open(join('data','cmdlist.json'), mode='r') as my_file:
         text = my_file.read()
-        return text
+        return jsonify(text)
 
 @app.route("/webhook", methods=['POST'])
 def callback():
