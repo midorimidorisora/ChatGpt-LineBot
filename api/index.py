@@ -52,7 +52,7 @@ def handle_message(event):
 
 
     
-    if data[event.message.text] != None:
+    if data.get(event.message.text) != None:
         working_status = True
         line_bot_api.reply_message(
             event.reply_token,
