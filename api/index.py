@@ -61,6 +61,11 @@ def handle_message(event):
     print(data)
 
     if event.message.text in data :
+        if event.message.text == "安靜":
+            working_status = False
+        else:
+            working_status = True
+            
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=data[event.message.text]))
@@ -70,7 +75,7 @@ def handle_message(event):
         working_status = False
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="感謝您的使用，若需要我的服務，請跟我說 「啟動」 謝謝~"))
+            TextSendMessage(text="啟用chatgpt服務，請跟我說 「啟動」 謝謝~"))
         return
     if event.message.text == "啟動":
         working_status = True
@@ -86,8 +91,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=reply_msg))
 
-def getSystemInfo():
-    
+def getSystemInfo():    
         info={}
         info['platform']=platform.system()
         info['platform-release']=platform.release()
