@@ -35,13 +35,13 @@ def api():
         return jsonify(text)
 
 @app.route('/api/v1/sysinfo')
-def api():
+def sysinfo_get():
     with open('data/sysinfo.json', mode='r') as my_file:
         text = my_file.read()
         return jsonify(text)
     
 @app.route('/api/v1/sysinfo', methods=['POST'])
-def api_id1():
+def sysinfo_post():
     output = request.get_json()
     
     with open('data/sysinfo.json', 'w') as f:
