@@ -5,5 +5,5 @@
     "url":"https://chat-gpt-bot-swart.vercel.app/",
     "啟動":"chatgpt 目前可以為您服務囉~",
     "安靜":"啟用chatgpt服務，請跟我說 「啟動」 謝謝~",
-    "cmds":"start:啟動 \n quiet\n  url\n cmds\n help\n"
+    "cmds":"start:啟動\n quiet:\n url:\n cmds:\n help:\n"
 }
