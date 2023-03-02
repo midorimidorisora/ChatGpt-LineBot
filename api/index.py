@@ -3,7 +3,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from api.chatgpt import ChatGPT
-
+from os.path import join
 import os
 
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
@@ -20,7 +20,7 @@ def home():
 
 @app.route('/api')
 def api():
-    with open(join('data','cmdlist.json'), mode='r') as my_file:
+    with open('data/cmdlist.json', mode='r') as my_file:
         text = my_file.read()
         return jsonify(text)
 
