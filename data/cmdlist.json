@@ -1,18 +1,5 @@
 {
-    "cmd":[
-        {
-            "key":"help",
-            "value":"cmd help"
-        },
-        {
-            "key":"start",
-            "value":"chatgpt 目前可以為您服務囉~"
-        },
-        {
-            "key":"quiet",
-            "value":"感謝您的使用，若需要我的服務，請跟我說 「啟動」 謝謝~"
-        }
-
-    ]
-
+    "help":"cmd help",
+    "start":"chatgpt 目前可以為您服務囉~",   
+    "quiet" :"感謝您的使用，若需要我的服務，請跟我說 「啟動」 謝謝~"
 }
