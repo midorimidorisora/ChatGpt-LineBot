@@ -1,7 +1,8 @@
 from flask import Flask, request, abort, jsonify ,json
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage ,TemplateSendMessage, ButtonsTemplate
+
 from api.chatgpt import ChatGPT
 from os.path import join
 import os ,platform
@@ -10,8 +11,8 @@ if os.name == 'nt':
     with open('data/key.json', 'r',encoding="utf-8") as file:
         data = json.load(file)
 
-    line_bot_api =data["LINE_CHANNEL_ACCESS_TOKEN"]
-    line_handler =data["LINE_CHANNEL_SECRET"]
+    line_bot_api =LineBotApi(data["LINE_CHANNEL_ACCESS_TOKEN"])
+    line_handler =WebhookHandler(data["LINE_CHANNEL_SECRET"])
 else:
     line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
     line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
@@ -98,6 +99,11 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="chatgpt 目前可以為您服務囉~"))
         return
+    
+    if event.message.text == 'menu':
+        line_bot_api.reply_message(event.reply_token, make_select_message())
+        return
+    
     if working_status:
         chatgpt.add_msg(f"Human:{event.message.text}?\n")
         reply_msg = chatgpt.get_response().replace("AI:", "", 1)
@@ -115,6 +121,31 @@ def getSystemInfo():
         info['processor']=platform.processor()
         return json.dumps(info)
 
+def make_select_message():
+    return TemplateSendMessage(
+        alt_text="選択肢",
+        template=ButtonsTemplate(
+            title="選択肢のテスト",
+            text="下から1つ選んでね！",
+            actions=[
+                {
+                    "type": "postback",
+                    "data": "morning",
+                    "label": "朝"
+                },
+                {
+                    "type": "postback",
+                    "data": "noon",
+                    "label": "昼"
+                },
+                {
+                    "type": "postback",
+                    "data": "night",
+                    "label": "夜"
+                }
+            ]
+        )
+    )
 
 if __name__ == "__main__":
     app.run()
