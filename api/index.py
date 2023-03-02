@@ -4,10 +4,20 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from api.chatgpt import ChatGPT
 from os.path import join
-import os
+import os ,platform
 
-line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
-line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+if os.name == 'nt':
+    with open('data/key.json', 'r',encoding="utf-8") as file:
+        data = json.load(file)
+
+    line_bot_api =data["LINE_CHANNEL_ACCESS_TOKEN"]
+    line_handler =data["LINE_CHANNEL_SECRET"]
+else:
+    line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
+    line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+
+
+
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
 
 app = Flask(__name__)
@@ -16,7 +26,7 @@ chatgpt = ChatGPT()
 # domain root
 @app.route('/')
 def home():
-    return 'Hello, World!'
+    return json.loads(getSystemInfo())
 
 @app.route('/api')
 def api():
@@ -50,8 +60,6 @@ def handle_message(event):
         data = json.load(file)
     print(data)
 
-
-    
     if event.message.text in data :
         line_bot_api.reply_message(
             event.reply_token,
@@ -77,6 +85,16 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=reply_msg))
+
+def getSystemInfo():
+    
+        info={}
+        info['platform']=platform.system()
+        info['platform-release']=platform.release()
+        info['platform-version']=platform.version()
+        info['architecture']=platform.machine()
+        info['processor']=platform.processor()
+        return json.dumps(info)
 
 
 if __name__ == "__main__":
