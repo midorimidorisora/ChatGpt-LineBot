@@ -162,4 +162,5 @@ def make_select_message():
     )
 
 if __name__ == "__main__":
+    app.config['JSON_AS_ASCII'] = False
     app.run()
