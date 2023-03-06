@@ -4,9 +4,9 @@ import os
 import requests
 
 class Weather:
-    def get_data(self,city):
+    def get_data(city):
 
-        url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
+        url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001"
         params = {
             "Authorization": "CWB-513C160C-774E-4A37-B382-385E3C37B154",
             "locationName": city,
@@ -22,13 +22,13 @@ class Weather:
             info['location'] = data["records"]["location"][0]["locationName"]
 
             weather_elements = data["records"]["location"][0]["weatherElement"]
-            info['start_time'] = weather_elements[0]["time"][0]["startTime"]
-            info['end_time'] = weather_elements[0]["time"][0]["endTime"]
-            info['weather_state'] = weather_elements[0]["time"][0]["parameter"]["parameterName"]
-            info['rain_prob'] = weather_elements[1]["time"][0]["parameter"]["parameterName"]
-            info['min_tem'] = weather_elements[2]["time"][0]["parameter"]["parameterName"]
-            info['comfort'] = weather_elements[3]["time"][0]["parameter"]["parameterName"]
-            info['max_tem']= weather_elements[4]["time"][0]["parameter"]["parameterName"]
+            info['TEMP'] = weather_elements[3]
+            info['HUMD'] = weather_elements[4]
+            info['PRES'] = weather_elements[5]
+            info['Weather'] = weather_elements[20]
+            info['ELEV'] = weather_elements[0]
+            info['WDIR'] = weather_elements[1]
+            info['WDSD']= weather_elements[2]
 
             # print(location)
             # print(start_time)

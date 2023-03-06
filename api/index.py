@@ -27,7 +27,7 @@ chatgpt = ChatGPT()
 # domain root
 @app.route('/')
 def home():
-    return json.loads(getSystemInfo()&Weather.get_data("臺南"))
+    return json.loads(getSystemInfo())
 
 @app.route('/api')
 def api():
@@ -104,6 +104,12 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, make_select_message())
         return
     
+    if event.message.text == 'weather':
+        line_bot_api.reply_message(event.reply_token, Weather.get_data("臺南"))
+        return
+    
+    
+
     if working_status:
         chatgpt.add_msg(f"Human:{event.message.text}?\n")
         reply_msg = chatgpt.get_response().replace("AI:", "", 1)
