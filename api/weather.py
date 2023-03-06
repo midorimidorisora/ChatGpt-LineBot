@@ -17,18 +17,18 @@ class Weather:
 
         if response.status_code == 200:
             # print(response.text)
-            data = json.loads(response.text)
+            data = json.loads(response.text,encoding="utf-8")
             info={}
             info['location'] = data["records"]["location"][0]["locationName"]
 
             weather_elements = data["records"]["location"][0]["weatherElement"]
-            info['TEMP'] = weather_elements[3]
-            info['HUMD'] = weather_elements[4]
-            info['PRES'] = weather_elements[5]
-            info['Weather'] = weather_elements[20]
-            info['ELEV'] = weather_elements[0]
-            info['WDIR'] = weather_elements[1]
-            info['WDSD']= weather_elements[2]
+            info['TEMP'] = weather_elements[3]["elementValue"]
+            info['HUMD'] = weather_elements[4]["elementValue"]
+            info['PRES'] = weather_elements[5]["elementValue"]
+            info['Weather'] = weather_elements[20]["elementValue"]
+            info['ELEV'] = weather_elements[0]["elementValue"]
+            info['WDIR'] = weather_elements[1]["elementValue"]
+            info['WDSD']= weather_elements[2]["elementValue"]
 
             # print(location)
             # print(start_time)
