@@ -40,6 +40,6 @@ class Weather:
             # print(min_tem)
             # print(comfort)
             # print(max_tem)
-            return json.dumps(info, ensure_ascii=False).encode('utf8')
+            return json.dumps(info)
         else:
             print("Can't get data!")
