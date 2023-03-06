@@ -104,8 +104,9 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, make_select_message())
         return
     
-    if event.message.text == 'weather':
-        line_bot_api.reply_message(event.reply_token, Weather.get_data("臺南"))
+    x=event.message.text.split()
+    if  x[0] == 'weather':
+        line_bot_api.reply_message(event.reply_token, Weather.get_data(x[1]))
         return
     
     
