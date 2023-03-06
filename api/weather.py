@@ -17,7 +17,9 @@ class Weather:
 
         if response.status_code == 200:
             # print(response.text)
-            data = json.loads(response.text,encoding="utf-8")
+            # print(response.encoding)
+            # response.encoding='utf-8-sig'
+            data = json.loads(response.text)
             info={}
             info['location'] = data["records"]["location"][0]["locationName"]
 
@@ -38,6 +40,6 @@ class Weather:
             # print(min_tem)
             # print(comfort)
             # print(max_tem)
-            return json.dumps(info)
+            return json.dumps(info, ensure_ascii=False).encode('utf8')
         else:
             print("Can't get data!")
