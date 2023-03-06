@@ -1,8 +1,8 @@
 from flask import Flask, request, abort, jsonify ,json
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage ,TemplateSendMessage, ButtonsTemplate
-
+from linebot.models import MessageEvent, TextMessage, TextSendMessage ,TemplateSendMessage, ButtonsTemplate ,PostbackEvent
+from api.weather import Weather
 from api.chatgpt import ChatGPT
 from os.path import join
 import os ,platform
@@ -27,7 +27,7 @@ chatgpt = ChatGPT()
 # domain root
 @app.route('/')
 def home():
-    return json.loads(getSystemInfo())
+    return json.loads(getSystemInfo()&Weather.get_data("臺南"))
 
 @app.route('/api')
 def api():
@@ -77,7 +77,7 @@ def handle_message(event):
     print(data)
 
     if event.message.text in data :
-        if event.message.text == "安靜":
+        if event.message.text == "安靜" or event.message.text == "quiet":
             working_status = False
         else:
             working_status = True
@@ -87,18 +87,18 @@ def handle_message(event):
             TextSendMessage(text=data[event.message.text]))
         return
 
-    if event.message.text == "安靜":
-        working_status = False
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="啟用chatgpt服務，請跟我說 「啟動」 謝謝~"))
-        return
-    if event.message.text == "啟動":
-        working_status = True
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="chatgpt 目前可以為您服務囉~"))
-        return
+    # if event.message.text == "安靜":
+    #     working_status = False
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text="啟用chatgpt服務，請跟我說 「啟動」 謝謝~"))
+    #     return
+    # if event.message.text == "啟動":
+    #     working_status = True
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text="chatgpt 目前可以為您服務囉~"))
+    #     return
     
     if event.message.text == 'menu':
         line_bot_api.reply_message(event.reply_token, make_select_message())
@@ -111,6 +111,13 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=reply_msg))
+        
+
+@line_handler.add(PostbackEvent)
+def on_postback(line_event):
+    data = line_event.postback.data
+    line_bot_api.reply_message(line_event.reply_token, TextSendMessage("{0}を選択しましたね！".format(data)))
+
 
 def getSystemInfo():    
         info={}
