@@ -104,7 +104,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, make_select_message())
         return
     
-    x=event.message.text.split()
+    x=event.message.text.split(' ')
     if  x[0] == 'weather':
         line_bot_api.reply_message(event.reply_token, Weather.get_data(x[1]))
         return
