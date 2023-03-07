@@ -75,7 +75,7 @@ def handle_message(event):
 
     with open('data/cmdlist.json', 'r',encoding="utf-8") as file:
         data = json.load(file)
-    print(data)
+    #print(data)
 
     if event.message.text in data :
         if event.message.text == "安靜" or event.message.text == "quiet":
@@ -107,18 +107,19 @@ def handle_message(event):
     
     
     x=event.message.text.split(' ')
-    if  x[0] == 'weather':
+    print(x[0])
+    print(x[1])
+    if x[0] == 'weather':
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1])))
         return
     if x[0]=='qr':
         img = qrcode.make(x[1])
-        #print(type(img))  # qrcode.image.pil.PilImage
+        print(type(img))  # qrcode.image.pil.PilImage
         #img.save("data/qrcode_1.png")
         replyMsg = {
         "type": "image",
         "originalContentUrl": 'https://developers.line.biz/media/messaging-api/messages/image-full-04fbba55.png',
         "previewImageUrl": 'https://developers.line.biz/media/messaging-api/messages/image-full-04fbba55.png',
-        "animated": True
         }
     
         line_bot_api.reply_message(event.reply_token,replyMsg)
