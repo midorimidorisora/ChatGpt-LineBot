@@ -1,11 +1,12 @@
 from flask import Flask, request, abort, jsonify ,json
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage ,TemplateSendMessage, ButtonsTemplate ,PostbackEvent
+from linebot.models import MessageEvent, TextMessage, TextSendMessage ,TemplateSendMessage, ButtonsTemplate ,PostbackEvent,ImageSendMessage
 from api.weather import Weather
 from api.chatgpt import ChatGPT
 from os.path import join
 import os ,platform
+import qrcode
 
 if os.name == 'nt':
     with open('data/key.json', 'r',encoding="utf-8") as file:
@@ -104,11 +105,23 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, make_select_message())
         return
     
+    
     x=event.message.text.split(' ')
     if  x[0] == 'weather':
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1])))
         return
+    if x[0]=='qr':
+        img = qrcode.make(x[1])
+        #print(type(img))  # qrcode.image.pil.PilImage
+        replyMsg = {
+        "type": "image",
+        "originalContentUrl": type(img),
+        "previewImageUrl": type(img),
+        "animated": True
+        }
     
+        line_bot_api.reply_message(event.reply_token,replyMsg)
+        return
     
 
     if working_status:

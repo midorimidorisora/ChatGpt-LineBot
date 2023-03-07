@@ -1,3 +1,5 @@
 Flask==2.2.2
 line-bot-sdk
 openai
+qrcode==7.4.2
+Pillow==9.4.0
