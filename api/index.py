@@ -113,10 +113,11 @@ def handle_message(event):
     if x[0]=='qr':
         img = qrcode.make(x[1])
         #print(type(img))  # qrcode.image.pil.PilImage
+        img.save("data/qrcode_1.png")
         replyMsg = {
         "type": "image",
-        "originalContentUrl": type(img),
-        "previewImageUrl": type(img),
+        "originalContentUrl": "data/qrcode_1.png",
+        "previewImageUrl": "data/qrcode_1.png",
         "animated": True
         }
     
