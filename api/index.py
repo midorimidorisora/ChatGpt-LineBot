@@ -107,23 +107,22 @@ def handle_message(event):
     
     
     x=event.message.text.split(' ')
-    print(x[0])
-    print(x[1])
-    if x[0] == 'weather':
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1])))
-        return
-    if x[0]=='qr':
-        img = qrcode.make(x[1])
-        print(type(img))  # qrcode.image.pil.PilImage
-        #img.save("data/qrcode_1.png")
-        replyMsg = {
-        "type": "image",
-        "originalContentUrl": 'https://developers.line.biz/media/messaging-api/messages/image-full-04fbba55.png',
-        "previewImageUrl": 'https://developers.line.biz/media/messaging-api/messages/image-full-04fbba55.png',
-        }
-    
-        line_bot_api.reply_message(event.reply_token,replyMsg)
-        return
+    if(x.count>1):
+        if x[0] == 'weather':
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1])))
+            return
+        if x[0]=='qr':
+            img = qrcode.make(x[1])
+            print(type(img))  # qrcode.image.pil.PilImage
+            #img.save("data/qrcode_1.png")
+            replyMsg = {
+            "type": "image",
+            "originalContentUrl": 'https://developers.line.biz/media/messaging-api/messages/image-full-04fbba55.png',
+            "previewImageUrl": 'https://developers.line.biz/media/messaging-api/messages/image-full-04fbba55.png',
+            }
+        
+            line_bot_api.reply_message(event.reply_token,replyMsg)
+            return
     
 
     if working_status:
