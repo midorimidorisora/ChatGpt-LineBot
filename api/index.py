@@ -107,7 +107,7 @@ def handle_message(event):
     
     
     x=event.message.text.split(' ')
-    if(x.len()>1):
+    if(len(x)>1):
         if x[0] == 'weather':
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1])))
             return
