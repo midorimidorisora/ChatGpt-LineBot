@@ -21,13 +21,13 @@ class Weather:
             # response.encoding='utf-8-sig'
             data = json.loads(response.text)
             info={}
-            info['location'] = data["records"]["location"][0]["locationName"].encode('utf-8')
+            info['location'] = data["records"]["location"][0]["locationName"]
 
             weather_elements = data["records"]["location"][0]["weatherElement"]
             info['TEMP'] = weather_elements[3]["elementValue"]
             info['HUMD'] = weather_elements[4]["elementValue"]
             info['PRES'] = weather_elements[5]["elementValue"]
-            info['Weather'] = weather_elements[20]["elementValue"].encode('utf-8')
+            info['Weather'] = weather_elements[20]["elementValue"]
             info['ELEV'] = weather_elements[0]["elementValue"]
             info['WDIR'] = weather_elements[1]["elementValue"]
             info['WDSD']= weather_elements[2]["elementValue"]
