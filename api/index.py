@@ -109,7 +109,7 @@ def handle_message(event):
     x=event.message.text.split(' ')
     if(len(x)>1):
         if x[0] == 'weather':
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1]).encode('utf-8')))
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1])).encode('utf-8'))
             return
         if x[0]=='qr':
             img = qrcode.make(x[1])
