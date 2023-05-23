@@ -7,6 +7,7 @@ from api.chatgpt import ChatGPT
 from os.path import join
 import os ,platform
 import qrcode
+import json
 
 if os.name == 'nt':
     with open('data/key.json', 'r',encoding="utf-8") as file:
@@ -109,7 +110,10 @@ def handle_message(event):
     x=event.message.text.split(' ')
     if(len(x)>1):
         if x[0] == 'weather':
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1]).decode('utf-8')))
+            #line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1]).decode('utf-8')))
+            reply_message = Weather.get_data(x[1]).encode('utf-8').decode('unicode-escape')
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=json.dumps(reply_message, ensure_ascii=False)))
+
             return
         if x[0]=='qr':
             img = qrcode.make(x[1])
