@@ -111,7 +111,7 @@ def handle_message(event):
     if(len(x)>1):
         if x[0] == 'weather':
             #line_bot_api.reply_message(event.reply_token,TextSendMessage(text= Weather.get_data(x[1]).decode('utf-8')))
-            reply_message = Weather.get_data(x[1]).encode('utf-8').decode('unicode-escape')
+            reply_message = Weather.get_data(x[1]).decode('unicode-escape')
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=json.dumps(reply_message, ensure_ascii=False)))
 
             return
